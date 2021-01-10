@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from 'mongodb';
 import { ItemType } from '../types/item';
 
-const url = `clonewars:369852147@home-planner.5mot7.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb+srv://clonewars:369852147@home-planner.5mot7.mongodb.net/?retryWrites=true&w=majority`;
 
 const dbName = 'home-planer';
 const collectionName = 'ingredients';
