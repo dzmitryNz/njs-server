@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Router } from 'express';
-import * as storage from '../storage/fs';
+import * as storage from '../storage/fs-ingredients';
 const usersRouter = Router();
 
 /* GET users listing. */
@@ -9,9 +9,18 @@ usersRouter.get('/', async (req, res, next) => {
   res.json(list);
 });
 
-usersRouter.get('/:id', async (req, res, next) => {
+usersRouter.get('/i', async (req, res, next) => {
 
-  const item = await storage.getById(req.params["id"]);
+  const item = await storage.getById(req.params["strIngredient"]);
+
+  res
+  .status(item ? 200 : 404)
+  .json(item ?? { statusCode: 404 });
+});
+
+usersRouter.get('/cat', async (req, res, next) => {
+
+  const item = await storage.getByCat(req.params["strCategory"]);
 
   res
   .status(item ? 200 : 404)

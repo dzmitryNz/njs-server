@@ -43,7 +43,7 @@ const create = async (item: ItemType) => {
 const update = async (item: ItemType) => {
   const collection = await getCollection();
 
-  const id = item.id;
+  const id = item._id;
 
   const response = await collection.replaceOne({ id }, item);
 
