@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { v4 as uuid } from 'uuid';
-import * as storage from '../storage/fs-ingredients';
+// import * as storage from '../storage/fs-ingredients';
+import * as storage from '../storage/mongo';
 const ingredientsRouter = Router();
 
 /* GET users listing. */
@@ -21,7 +22,7 @@ ingredientsRouter.get('/:strIngredient', async (req, res, next) => {
 ingredientsRouter.get('/cat/:strCategory', async (req, res, next) => {
 
   const item = await storage.getByCat(req.params["strCategory"]);
-
+ 
   res
   .status(item ? 200 : 404)
   .json(item ?? { statusCode: 404 });

@@ -1,12 +1,10 @@
 import { Collection, MongoClient } from 'mongodb';
 import { ItemType } from '../types/item';
 
-const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST } = process.env;
+const url = `clonewars:369852147@home-planner.5mot7.mongodb.net/?retryWrites=true&w=majority`;
 
-const url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/?retryWrites=true&w=majority`;
-
-const dbName = 'test';
-const collectionName = 'todos';
+const dbName = 'home-planer';
+const collectionName = 'ingredients';
 
 const getMongoInstance = async () => {
   const client = await MongoClient.connect(url);
@@ -26,10 +24,16 @@ const listAll = async () => {
   return collection.find({}).toArray();
 };
 
-const getById = async (id: string) => {
+const getById = async (strIngredient: string) => {
   const collection = await getCollection();
 
-  return await collection.findOne({ id });
+  return await collection.findOne({ strIngredient });
+};
+
+const getByCat = async (strCategory: string) => {
+  const collection = await getCollection();
+
+  return await collection.findOne({ strCategory });
 };
 
 const create = async (item: ItemType) => {
@@ -59,6 +63,7 @@ const remove = async (id: string) => {
 export {
   listAll,
   getById,
+  getByCat,
   create,
   update,
   remove
