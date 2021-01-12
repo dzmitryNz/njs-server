@@ -22,7 +22,7 @@ App.use(express.urlencoded({ extended: false }));
 
 App.use('/', indexRouter);
 App.use('/users', usersRouter);
-App.use('/receipts', receiptsRouter);
+App.use('/rec', receiptsRouter);
 App.use('/ing', ingredientsRouter);
 
 // catch 404 and forward to error handler
