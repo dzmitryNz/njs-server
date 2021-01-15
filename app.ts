@@ -17,6 +17,7 @@ const App = express();
 App.use(logger('dev'));
 App.use(express.json());
 App.use(express.urlencoded({ extended: false }));
+
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,6 +38,14 @@ App.use(function(err, req, res, next) {
     mesage: err.message,
     stack: err.stack
     })
+});
+
+App.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST, PUT');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+  next();
 });
 
 export default App;
