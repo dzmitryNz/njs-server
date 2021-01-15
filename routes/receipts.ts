@@ -19,6 +19,12 @@ const receiptsRouter = Router();
 // strIngredient1: string;
 // strMeasure1: string;
 
+receiptsRouter.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*" );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 receiptsRouter.get('/', async (req, res, next) => {
   const list = await storage.listMeals();
   res.json(list);

@@ -2,6 +2,7 @@ import * as express from 'express';
 // import path from 'path';
 // import cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
+// import cors from 'cors';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -38,14 +39,6 @@ App.use(function(err, req, res, next) {
     mesage: err.message,
     stack: err.stack
     })
-});
-
-App.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST, PUT');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-  next();
 });
 
 export default App;
