@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from 'mongodb';
 import { RecType } from '../types/item';
 
-const url = `mongodb+srv://dzmitrynz:369852147M@cluster0.5mot7.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb://192.168.1.66:27017/`;
 
 const dbName = 'home-planner';
 const collectionName = 'receipts';
