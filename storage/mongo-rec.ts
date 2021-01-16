@@ -1,14 +1,13 @@
-import { json } from 'express';
 import { Collection, MongoClient } from 'mongodb';
 import { RecType } from '../types/item';
 
-const url = `mongodb+srv://clonewars:369852147@home-planner.5mot7.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb+srv://dzmitrynz:369852147M@cluster0.5mot7.mongodb.net/?retryWrites=true&w=majority`;
 
-const dbName = 'home-planer';
+const dbName = 'home-planner';
 const collectionName = 'receipts';
 
 const getMongoInstance = async () => {
-  const client = await MongoClient.connect(url);
+  const client = await MongoClient.connect(url, { useUnifiedTopology: true });
 
   return client.db(dbName);
 }
@@ -25,7 +24,7 @@ const listMeals = async () => {
   const list = collection.find({}).toArray();
   let meals = [];
   (await list).forEach((el) => {
-    meals.push({"strMeal": el.strMeal, "strCategory": el.strCategory, "idMeal": el.idMeal})
+    meals.push({"strMeal": el.strMeal, "strCategory": el.strCategory, "idMeal": el.idMeal, "strMealThumb": el.strMealThumb})
   })
 
   return meals;
@@ -57,6 +56,13 @@ const listAreas = async () => {
   });
   
   return Array.from(mapAreas);
+};
+
+const getList = async () => {
+  const collection = await getCollection();
+  const list = collection.find({}).toArray();
+    
+  return list;
 };
 
 const getById = async (idMeal: string) => {
@@ -108,6 +114,7 @@ const remove = async (id: string) => {
 };
 
 export {
+  getList,
   listMeals,
   listCategories,
   listAreas,

@@ -43,6 +43,7 @@ receiptsRouter.get('/area', async (req, res, next) => {
 receiptsRouter.get('/id/:idMeal', async (req, res, next) => {
 
   const item = await storage.getById(req.params["idMeal"]);
+  console.log('item')
 
   res
   .status(item ? 200 : 404)
