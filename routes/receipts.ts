@@ -35,10 +35,17 @@ receiptsRouter.get('/cat', async (req, res, next) => {
   res.json(list);
 });
 
+receiptsRouter.post('/array', async (req, res, next) => {
+  const { body } = req;
+  const list = await storage.listArray(body);
+  res.json(list);
+});
+
 receiptsRouter.get('/area', async (req, res, next) => {
   const list = await storage.listAreas();
   res.json(list);
 });
+
 
 receiptsRouter.get('/id/:idMeal', async (req, res, next) => {
 

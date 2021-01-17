@@ -1,7 +1,9 @@
 import { Collection, MongoClient } from 'mongodb';
 import { ItemType } from '../types/item';
+const PropertiesJson = {serverUrlLocal: "mongodb://192.168.1.66:27017/",
+serverUrl: "mongodb+srv://dzmitrynz:369852147M@cluster0.5mot7.mongodb.net/"};
 
-const url = `mongodb://192.168.1.66:27017/`;
+const url = PropertiesJson.serverUrl;
 
 const dbName = 'home-planner';
 const collectionName = 'ingredients';
@@ -22,6 +24,17 @@ const listAll = async () => {
   const collection = await getCollection();
 
   return collection.find({}).toArray();
+};
+
+const listArray = async (obj: object) => {
+  const collection = await getCollection();
+  const el = obj["el"];
+  const reg = new RegExp(obj["reg"]);
+  console.log(el, reg)
+  const ingredients = await collection.find({ [el]: reg }).toArray();
+  console.log(el, reg, ingredients)
+
+  return ingredients;
 };
 
 const getById = async (strIngredient: string) => {
@@ -62,6 +75,7 @@ const remove = async (id: string) => {
 
 export {
   listAll,
+  listArray,
   getById,
   getByCat,
   create,

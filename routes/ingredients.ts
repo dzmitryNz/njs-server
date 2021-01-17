@@ -10,6 +10,12 @@ ingredientsRouter.get('/', async (req, res, next) => {
   res.json(list);
 });
 
+ingredientsRouter.post('/array', async (req, res, next) => {
+  const { body } = req;
+  const list = await storage.listArray(body);
+  res.json(list);
+});
+
 ingredientsRouter.get('/:strIngredient', async (req, res, next) => {
 
   const item = await storage.getById(req.params["strIngredient"]);
