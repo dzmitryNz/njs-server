@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import { Router } from 'express';
-import * as storage from '../storage/fs-ingredients';
+import * as storage from '../storage/mongo-users';
 const usersRouter = Router();
 
 /* GET users listing. */
 usersRouter.get('/', async (req, res, next) => {
-  const list = await storage.listAll();
+  const list = await storage.getList();
   res.json(list);
 });
 

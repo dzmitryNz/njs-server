@@ -46,6 +46,10 @@ receiptsRouter.get('/area', async (req, res, next) => {
   res.json(list);
 });
 
+receiptsRouter.get('/popular', async (req, res, next) => {
+  const list = await storage.listPopular();
+  res.json(list);
+});
 
 receiptsRouter.get('/id/:idMeal', async (req, res, next) => {
 

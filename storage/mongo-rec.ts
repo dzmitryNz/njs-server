@@ -3,13 +3,13 @@ import { RecType } from '../types/item';
 const PropertiesJson = {serverUrlLocal: "mongodb://192.168.1.66:27017/",
 serverUrl: "mongodb+srv://dzmitrynz:369852147M@cluster0.5mot7.mongodb.net/"};
 
-const url = PropertiesJson.serverUrl;
+const url = PropertiesJson.serverUrlLocal;
 
 const dbName = 'home-planner';
 const collectionName = 'receipts';
 
 const getMongoInstance = async () => {
-  const client = await MongoClient.connect(url, { useUnifiedTopology: true });
+  const client = await MongoClient.connect(url, { useUnifiedTopology: true, connectTimeoutMS: 50000 });
 
   return client.db(dbName);
 }
@@ -46,6 +46,16 @@ const listCategories = async () => {
   return Array.from(mapCategories);
 };
 
+const listPopular = async () => {
+  const collection = await getCollection();
+  const find = {strRequestsCounter: {$gt: 0}};
+  const sort = {strRequestsCounter: -1};
+  const limit = 50;
+  const list = collection.find(find).sort(sort).limit(limit).toArray();
+    
+  return list;
+};
+
 const listAreas = async () => {
   const collection = await getCollection();
   const list = collection.find({}).toArray();
@@ -60,10 +70,26 @@ const listAreas = async () => {
   return Array.from(mapAreas);
 };
 
+const updCount = async (chngRec: string) => { 
+  const collection = await getCollection();
+  const doc = await collection.findOne({idMeal: chngRec})
+  const value = doc.strRequestsCounter + 1;
+  const newValue = {$set: {strRequestsCounter: value}}
+  console.log(chngRec, doc.strRequestsCounter) 
+  await collection.updateOne(doc, newValue, function(err, res) {
+    if (err) throw err;
+    console.log("1 document updated");
+  });
+  }
+
 const listArray = async (obj: object) => {
   const collection = await getCollection();
   const el = obj["el"];
   const reg = new RegExp(obj["reg"]);
+  const chngRec = obj["cat"];
+  if (chngRec) {
+    updCount(chngRec);
+  }
   const receipts = await collection.find({ [el]: reg }).toArray();
 
   return receipts;
@@ -129,6 +155,7 @@ export {
   listMeals,
   listCategories,
   listAreas,
+  listPopular,
   listArray,
   getById,
   getByMeal,
